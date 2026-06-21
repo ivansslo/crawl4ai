@@ -1126,13 +1126,24 @@ python main.py
 }
 ```
 
-### Deploy Options
+### 🚀 Deploy Webhook Server (ghcr.io)
 
-| Platform | Command |
-|----------|---------|
-| **Render (1-click)** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https://github.com/ivansslo/crawl4ai) — langsung ke Blueprint setup |
-| **Docker** | `docker build -t crawl4ai-mcp ./mcp-server && docker run -p 8000:8000 crawl4ai-mcp` |
-| **Manual** | `cd zapier-webhook && pip install -r requirements.txt && gunicorn server:app` |
+Docker image otomatis terbuild ke GitHub Container Registry setiap push ke `main`:
+
+```
+ghcr.io/ivansslo/crawl4ai/zapier-webhook:latest
+```
+
+| Platform | Cara deploy |
+|----------|-------------|
+| **Render (1-click)** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https://github.com/ivansslo/crawl4ai) — Blueprint auto-deploy |
+| **Docker / VPS** | `docker pull ghcr.io/ivansslo/crawl4ai/zapier-webhook:latest` <br> `docker run -d -p 5000:5000 ghcr.io/ivansslo/crawl4ai/zapier-webhook:latest` |
+| **Fly.io** | `fly launch --image ghcr.io/ivansslo/crawl4ai/zapier-webhook:latest` |
+| **Railway** | `railway up --image ghcr.io/ivansslo/crawl4ai/zapier-webhook:latest` |
+| **Koyeb** | Deploy from ghcr.io via dashboard — set port to 5000 |
+| **VPS Manual** | `cd zapier-webhook && pip install -r requirements.txt && gunicorn server:app` |
+
+> 💡 **Free tier friendly**: Render, Fly.io, Railway, dan Koyeb punya free tier — no billing setup required.
 
 | Platform | Command |
 |----------|---------|
