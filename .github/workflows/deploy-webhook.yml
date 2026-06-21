@@ -1,0 +1,40 @@
+name: Deploy Zapier Webhook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'zapier-webhook/**'
+      - 'render.yaml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: zapier-webhook
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Test server startup
+        run: |
+          python3 -c "
+          from server import app
+          client = app.test_client()
+          r = client.get('/health')
+          assert r.status_code == 200
+          data = r.get_json()
+          assert data['status'] == 'ok'
+          print('✅ Health check passed')
+          
+          r = client.post('/webhook/catch', json={'url': 'https://example.com'})
+          assert r.status_code == 200
+          data = r.get_json()
+          print(f'✅ Sync crawl: {data[\"response_time\"]}ms, {len(data[\"content\"])} chars')
+          "
