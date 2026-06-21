@@ -1095,6 +1095,67 @@ I'll help modify the license section with badges. For the halftone effect, here'
 
 Here's the updated license section:
 
+
+## 🕸️ MCP Server & Zapier Integration
+
+Crawl4AI comes with a standalone MCP (Model Context Protocol) server that exposes web crawling 
+as tools for AI assistants, plus webhook endpoints for Zapier and other automation platforms.
+
+### 🔌 Quick Start (MCP Server)
+
+```bash
+cd mcp-server
+pip install -r requirements.txt
+python main.py
+
+# Server runs at http://0.0.0.0:8000
+# MCP SSE:  http://localhost:8000/mcp/sse
+# MCP WS:   ws://localhost:8000/mcp/ws
+```
+
+### 🔧 Claude Desktop Config
+
+```json
+{
+  "mcpServers": {
+    "crawl4ai": {
+      "transport": "sse",
+      "url": "http://localhost:8000/mcp/sse"
+    }
+  }
+}
+```
+
+### Deploy Options
+
+| Platform | Command |
+|----------|---------|
+| **Docker** | `docker build -t crawl4ai-mcp ./mcp-server && docker run -p 8000:8000 crawl4ai-mcp` |
+| **Render** | Point to `mcp-server/` dir, start: `uvicorn main:app --host 0.0.0.0 --port $PORT` |
+| **Railway** | Deploy `mcp-server/` as Python service |
+
+### ⚡ Zapier Webhooks
+
+Trigger crawls from Zapier or send results to 5000+ apps:
+
+```bash
+# Send crawl result to Zapier webhook
+POST /webhook/trigger
+{
+  "webhook_url": "https://hooks.zapier.com/hooks/catch/...",
+  "url": "https://example.com",
+  "formats": ["markdown"]
+}
+```
+
+See [mcp-server/zapier-guide.md](./mcp-server/zapier-guide.md) for full setup guide.
+
+### 🌐 Anyclaw Web App
+
+Try the live demo at the [Crawl4AI Anyclaw App](https://anyclaw.store/claim/11za8e) — 
+a web UI for crawling, MCP config, and Zapier testing.
+
+
 ## 📄 License & Attribution
 
 This project is licensed under the Apache License 2.0, attribution is recommended via the badges below. See the [Apache 2.0 License](https://github.com/ivansslo/crawl4ai/blob/main/LICENSE) file for details.
