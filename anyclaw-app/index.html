@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crawl4AI - Web Crawler & MCP Server</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    * { transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .bg-grid { background-image: radial-gradient(rgba(59,130,246,0.06) 1px, transparent 1px); background-size: 24px 24px; }
+    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+    .toast { animation: slideIn 0.3s ease-out; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    pre { overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+    .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+    .spinner { border: 3px solid rgba(59,130,246,0.2); border-top-color: #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    [v-cloak] { display: none; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen" id="app" v-cloak>
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <img src="icon.svg" alt="Crawl4AI" class="w-10 h-10">
+        <div>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Crawl4AI</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Open-source LLM Friendly Web Crawler</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <label class="flex items-center gap-2 text-xs text-gray-500">
+          <span>🔗 Backend:</span>
+          <input v-model="backendUrl" class="px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 w-48 text-xs font-mono" placeholder="http://localhost:8000">
+        </label>
+        <span class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium">v0.9.0</span>
+      </div>
+    </header>
+
+    <!-- Status bar -->
+    <div class="mb-6">
+      <div :class="['flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg', backendOnline ? 'bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300' : 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300']">
+        <span :class="['w-2 h-2 rounded-full', backendOnline ? 'bg-green-500' : 'bg-amber-500']"></span>
+        <span>{{ backendOnline ? '✅ Backend terhubung — mode live' : '⚠️ Demo mode — backend tidak terdeteksi, gunakan simulated data' }}</span>
+        <button @click="checkBackend" class="ml-auto underline hover:no-underline">↻ cek</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-6 border-b border-gray-200 dark:border-gray-800 mb-6">
+      <button @click="tab = 'crawl'" :class="['pb-2 text-sm', tab === 'crawl' ? 'tab-active' : 'text-gray-500 hover:text-gray-700']">🕷️ Crawl</button>
+      <button @click="tab = 'mcp'" :class="['pb-2 text-sm', tab === 'mcp' ? 'tab-active' : 'text-gray-500 hover:text-gray-700']">🔌 MCP</button>
+      <button @click="tab = 'zapier'" :class="['pb-2 text-sm', tab === 'zapier' ? 'tab-active' : 'text-gray-500 hover:text-gray-700']">⚡ Zapier</button>
+      <button @click="tab = 'server'" :class="['pb-2 text-sm', tab === 'server' ? 'tab-active' : 'text-gray-500 hover:text-gray-700']">📦 Deploy</button>
+    </div>
+
+    <!-- Tab: Crawl -->
+    <div v-if="tab === 'crawl'" class="space-y-6">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-semibold mb-4">🕷️ Web Crawler</h2>
+        <div class="flex gap-3 mb-4">
+          <input v-model="crawlUrl" type="url" placeholder="Enter URL to crawl..." @keyup.enter="doCrawl" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm">
+          <select v-model="crawlFormat" class="px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="markdown">Markdown</option>
+            <option value="html">HTML</option>
+            <option value="text">Text</option>
+          </select>
+          <button @click="doCrawl" :disabled="loading" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium text-sm hover:opacity-90 disabled:opacity-50 flex items-center gap-2 whitespace-nowrap">
+            <span v-if="loading" class="spinner"></span>
+            <span v-else>🚀 Crawl</span>
+          </button>
+        </div>
+        <div v-if="crawlResult" class="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium text-gray-500">📄 Results</h3>
+            <div class="flex gap-3 text-xs text-gray-400">
+              <span>⏱ {{ crawlResult.response_time || '?' }}ms</span>
+              <span>🔗 {{ crawlResult.links_count || 0 }} links</span>
+            </div>
+          </div>
+          <pre class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4 text-xs leading-relaxed max-h-96 overflow-y-auto font-mono">{{ JSON.stringify(crawlResult, null, 2) }}</pre>
+        </div>
+        <p v-if="crawlError" class="text-red-500 text-sm mt-2">{{ crawlError }}</p>
+      </div>
+    </div>
+
+    <!-- Tab: MCP -->
+    <div v-if="tab === 'mcp'" class="space-y-6">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-semibold mb-2">🔌 Model Context Protocol (MCP)</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Connect Claude, VS Code, Cursor, or any MCP client to crawl4ai.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 mcp-card border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">📡 SSE Endpoint</h3>
+            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ backendUrl }}/mcp/sse</code>
+            <p class="text-xs text-gray-500 mt-1">Server-Sent Events transport</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 mcp-card border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">🔗 WebSocket</h3>
+            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ wsUrl }}/mcp/ws</code>
+            <p class="text-xs text-gray-500 mt-1">WebSocket transport</p>
+          </div>
+        </div>
+
+        <h3 class="font-semibold text-sm mb-3">MCP Tools</h3>
+        <div class="space-y-2 mb-6">
+          <div v-for="tool in mcpTools" :key="tool.name" class="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div>
+              <code class="text-sm font-mono text-blue-600 dark:text-blue-400 font-semibold">{{ tool.name }}</code>
+              <p class="text-xs text-gray-500 mt-0.5">{{ tool.desc }}</p>
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 whitespace-nowrap">tool</span>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 dark:bg-blue-950 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+          <h4 class="font-semibold text-sm mb-2">🔧 Claude Desktop Config</h4>
+          <pre class="text-xs bg-blue-100 dark:bg-blue-900 rounded-lg p-3 overflow-x-auto">{{ JSON.stringify({mcpServers: {crawl4ai: {transport: "sse", url: backendUrl + "/mcp/sse"}}}, null, 2) }}</pre>
+          <button @click="copyMcpConfig" class="mt-2 text-xs text-blue-600 dark:text-blue-400 hover:underline">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Zapier -->
+    <div v-if="tab === 'zapier'" class="space-y-6">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-semibold mb-2">⚡ Zapier Integration</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Connect crawl4ai webhooks to 5000+ apps via Zapier.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">📥 Webhook Trigger</h3>
+            <p class="text-xs text-gray-500 mb-2">Crawl4AI sends data to Zapier when crawl completes.</p>
+            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ backendUrl }}/webhook/trigger</code>
+            <pre class="text-xs mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">{
+  "webhook_url": "https://hooks.zapier.com/...",
+  "url": "https://example.com"
+}</pre>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">📤 Webhook Action</h3>
+            <p class="text-xs text-gray-500 mb-2">Zapier triggers a crawl and gets results.</p>
+            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ backendUrl }}/crawl</code>
+            <pre class="text-xs mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">{
+  "url": "https://example.com",
+  "formats": ["markdown"]
+}</pre>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 dark:bg-amber-950 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
+          <h3 class="font-semibold text-sm mb-2">🔧 Setup Steps</h3>
+          <ol class="text-sm space-y-1.5 text-gray-700 dark:text-gray-300 list-decimal list-inside">
+            <li>Buat Zap baru di <a href="https://zapier.com" target="_blank" class="text-blue-600 hover:underline">Zapier.com</a></li>
+            <li>Pilih <strong>Webhooks by Zapier</strong> → <strong>Catch Hook</strong></li>
+            <li>Copy URL dari Zapier, kirim ke <code class="text-xs bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">{{ backendUrl }}/webhook/trigger</code></li>
+            <li>Map response fields ke action berikutnya (Google Sheets, Email, Slack, dll)</li>
+            <li>Aktifkan Zap!</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Quick Test -->
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+        <h3 class="font-semibold text-sm mb-4">📤 Test Webhook</h3>
+        <div class="space-y-3">
+          <input v-model="zapierWebhookUrl" type="url" placeholder="Zapier webhook URL dari Catch Hook..." class="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+          <input v-model="zapierCrawlUrl" type="url" placeholder="URL target untuk dicrawl..." class="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+          <button @click="testZapier" :disabled="zapierLoading" class="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl font-medium text-sm hover:opacity-90 disabled:opacity-50 flex items-center gap-2">
+            <span v-if="zapierLoading" class="spinner"></span>
+            <span v-else>📤 Kirim ke Zapier</span>
+          </button>
+          <p v-if="zapierResult" class="text-green-600 dark:text-green-400 text-sm">{{ zapierResult }}</p>
+          <p v-if="zapierError" class="text-red-500 text-sm">{{ zapierError }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Server -->
+    <div v-if="tab === 'server'" class="space-y-6">
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-semibold mb-4">📦 Deploy Your Own MCP Server</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Jalankan MCP server crawl4ai sendiri di infrastruktur Anda.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">🐳 Docker</h3>
+            <pre class="text-xs bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">docker build -t crawl4ai-mcp ./mcp-server
+docker run -p 8000:8000 crawl4ai-mcp</pre>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">☁️ Render</h3>
+            <p class="text-xs text-gray-500 mb-1">Deploy 1-click via Render:</p>
+            <pre class="text-xs bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto"># Set root: mcp-server
+# Build: pip install -r requirements.txt
+# Start: uvicorn main:app --host 0.0.0.0 --port $PORT</pre>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
+            <h3 class="font-semibold text-sm mb-2">🐍 Python</h3>
+            <pre class="text-xs bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">cd mcp-server
+pip install -r requirements.txt
+python main.py</pre>
+          </div>
+        </div>
+
+        <div class="bg-green-50 dark:bg-green-950 rounded-xl p-4 border border-green-200 dark:border-green-800">
+          <h3 class="font-semibold text-sm mb-2">✅ Setelah deploy</h3>
+          <ol class="text-sm space-y-1 text-gray-700 dark:text-gray-300 list-decimal list-inside">
+            <li>Masukkan URL server di field <strong>Backend URL</strong> (atas halaman)</li>
+            <li>Klik <strong>↻ cek</strong> untuk verifikasi koneksi</li>
+            <li>Gunakan <strong>Crawl</strong> tab untuk test langsung</li>
+            <li>Konfigurasi <strong>MCP</strong> client dengan endpoint SSE</li>
+            <li>Integrasikan <strong>Zapier</strong> dengan webhook URL</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 py-6 border-t border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+      <p>Crawl4AI v0.9.0 — <a href="https://github.com/ivansslo/crawl4ai" class="text-blue-500 hover:underline">ivansslo/crawl4ai</a></p>
+      <p class="mt-1">MCP Server | Webhooks | Zapier Integration</p>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div v-if="toast" class="toast fixed bottom-6 right-6 bg-gray-900 dark:bg-gray-700 text-white px-5 py-3 rounded-xl shadow-lg text-sm z-50 flex items-center gap-2">
+    <span>{{ toast }}</span>
+    <button @click="toast = ''" class="text-gray-400 hover:text-white text-lg leading-none">&times;</button>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          tab: 'crawl',
+          backendUrl: localStorage.getItem('c4ai_backend') || 'http://localhost:8000',
+          backendOnline: false,
+          crawlUrl: '',
+          crawlFormat: 'markdown',
+          crawlResult: null,
+          crawlError: '',
+          loading: false,
+          zapierWebhookUrl: '',
+          zapierCrawlUrl: '',
+          zapierResult: '',
+          zapierError: '',
+          zapierLoading: false,
+          toast: '',
+          mcpTools: [
+            { name: 'crawl', desc: 'Crawl a URL - returns markdown, HTML, or text' },
+            { name: 'extract_links', desc: 'Extract all links from a page' },
+            { name: 'screenshot', desc: 'Take a webpage screenshot' },
+          ]
+        }
+      },
+      computed: {
+        wsUrl() {
+          return this.backendUrl.replace(/^http/, 'ws');
+        }
+      },
+      watch: {
+        backendUrl(val) { localStorage.setItem('c4ai_backend', val); }
+      },
+      mounted() { this.checkBackend(); },
+      methods: {
+        async checkBackend() {
+          try {
+            const res = await fetch(this.backendUrl + '/health', { signal: AbortSignal.timeout(3000) });
+            this.backendOnline = res.ok;
+          } catch { this.backendOnline = false; }
+        },
+        async apiFetch(path, body) {
+          const res = await fetch(this.backendUrl + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+            signal: AbortSignal.timeout(15000)
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || 'HTTP ' + res.status);
+          }
+          return res.json();
+        },
+        async doCrawl() {
+          if (!this.crawlUrl) return;
+          this.loading = true;
+          this.crawlError = '';
+          this.crawlResult = null;
+          try {
+            this.crawlResult = await this.apiFetch('/crawl', {
+              url: this.crawlUrl,
+              formats: [this.crawlFormat]
+            });
+            this.toast = '✅ Crawl berhasil!';
+          } catch (e) {
+            this.crawlError = e.message;
+            this.crawlResult = {
+              url: this.crawlUrl,
+              status: 'demo',
+              content: `# Demo: ${this.crawlUrl}\n\nMode offline — hubungkan backend untuk hasil live.`,
+              response_time: 0,
+              links_count: 0
+            };
+            this.toast = '⚠️ Demo mode — backend tidak terhubung';
+          } finally { this.loading = false; }
+        },
+        async testZapier() {
+          if (!this.zapierWebhookUrl || !this.zapierCrawlUrl) return;
+          this.zapierLoading = true;
+          this.zapierResult = '';
+          this.zapierError = '';
+          try {
+            if (this.backendOnline) {
+              const res = await this.apiFetch('/webhook/trigger', {
+                webhook_url: this.zapierWebhookUrl,
+                url: this.zapierCrawlUrl
+              });
+              this.zapierResult = '✅ Webhook terkirim! Cek Zapier Anda.';
+            } else {
+              // Simulate
+              const res = await fetch(this.zapierWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'crawl_complete', data: { url: this.zapierCrawlUrl, status: 'success', format: 'markdown', response_time: 142 } }),
+                signal: AbortSignal.timeout(5000)
+              });
+              this.zapierResult = res.ok ? '✅ Webhook terkirim ke Zapier!' : '⚠️ HTTP ' + res.status;
+            }
+            this.toast = '✅ Zapier test selesai!';
+          } catch (e) {
+            this.zapierError = 'Gagal: ' + e.message;
+            this.zapierResult = '📤 Payload siap. Gunakan URL webhook Zapier yang valid.';
+          } finally { this.zapierLoading = false; }
+        },
+        copyMcpConfig() {
+          const cfg = {mcpServers: {crawl4ai: {transport: "sse", url: this.backendUrl + "/mcp/sse"}}};
+          navigator.clipboard.writeText(JSON.stringify(cfg, null, 2)).then(() => {
+            this.toast = '📋 Config copied!';
+          }).catch(() => { this.toast = '❌ Gagal copy'; });
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

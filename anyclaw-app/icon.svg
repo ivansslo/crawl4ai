@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Spider body -->
+  <ellipse cx="256" cy="290" rx="64" ry="52" fill="white" opacity="0.95"/>
+  <ellipse cx="256" cy="260" rx="44" ry="36" fill="white" opacity="0.95"/>
+  <!-- Eyes -->
+  <circle cx="238" cy="248" r="8" fill="#1F2937"/>
+  <circle cx="274" cy="248" r="8" fill="#1F2937"/>
+  <circle cx="238" cy="248" r="4" fill="#3B82F6"/>
+  <circle cx="274" cy="248" r="4" fill="#3B82F6"/>
+  <!-- Legs -->
+  <g stroke="white" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9">
+    <line x1="192" y1="270" x2="130" y2="200"/>
+    <line x1="192" y1="290" x2="120" y2="300"/>
+    <line x1="192" y1="310" x2="140" y2="380"/>
+    <line x1="320" y1="270" x2="382" y2="200"/>
+    <line x1="320" y1="290" x2="392" y2="300"/>
+    <line x1="320" y1="310" x2="372" y2="380"/>
+  </g>
+  <!-- Web thread -->
+  <line x1="256" y1="224" x2="256" y2="100" stroke="white" stroke-width="4" stroke-dasharray="8,6" opacity="0.7"/>
+  <!-- Cursor/click icon -->
+  <g transform="translate(340, 140) scale(1.2)">
+    <path d="M0,0 L8,28 L14,22 L24,32 L28,28 L18,18 L26,16 Z" fill="white" opacity="0.9"/>
+  </g>
+</svg>
