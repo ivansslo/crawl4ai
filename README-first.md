@@ -2,15 +2,15 @@
 
 <div align="center">
 
-<a href="https://trendshift.io/repositories/11716" target="_blank"><img src="https://trendshift.io/api/badge/repositories/11716" alt="unclecode%2Fcrawl4ai | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+<a href="https://trendshift.io/repositories/11716" target="_blank"><img src="https://trendshift.io/api/badge/repositories/11716" alt="ivansslo%2Fcrawl4ai | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[![GitHub Stars](https://img.shields.io/github/stars/unclecode/crawl4ai?style=social)](https://github.com/unclecode/crawl4ai/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/unclecode/crawl4ai?style=social)](https://github.com/unclecode/crawl4ai/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/ivansslo/crawl4ai?style=social)](https://github.com/ivansslo/crawl4ai/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/ivansslo/crawl4ai?style=social)](https://github.com/ivansslo/crawl4ai/network/members)
 
 [![PyPI version](https://badge.fury.io/py/crawl4ai.svg)](https://badge.fury.io/py/crawl4ai)
 [![Python Version](https://img.shields.io/pypi/pyversions/crawl4ai)](https://pypi.org/project/crawl4ai/)
 [![Downloads](https://static.pepy.tech/badge/crawl4ai/month)](https://pepy.tech/project/crawl4ai)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/unclecode?style=flat&logo=GitHub-Sponsors&label=Sponsors&color=pink)](https://github.com/sponsors/unclecode)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/ivansslo?style=flat&logo=GitHub-Sponsors&label=Sponsors&color=pink)](https://github.com/sponsors/ivansslo)
 
 <p align="center">
     <a href="https://x.com/crawl4ai">
@@ -29,7 +29,7 @@ Crawl4AI is the #1 trending GitHub repository, actively maintained by a vibrant 
 
 [✨ Check out latest update v0.7.0](#-recent-updates)
 
-🎉 **Version 0.7.0 is now available!** The Adaptive Intelligence Update introduces groundbreaking features: Adaptive Crawling that learns website patterns, Virtual Scroll support for infinite pages, intelligent Link Preview with 3-layer scoring, Async URL Seeder for massive discovery, and significant performance improvements. [Read the release notes →](https://github.com/unclecode/crawl4ai/blob/main/docs/blog/release-v0.7.0.md)
+🎉 **Version 0.7.0 is now available!** The Adaptive Intelligence Update introduces groundbreaking features: Adaptive Crawling that learns website patterns, Virtual Scroll support for infinite pages, intelligent Link Preview with 3-layer scoring, Async URL Seeder for massive discovery, and significant performance improvements. [Read the release notes →](https://github.com/ivansslo/crawl4ai/blob/main/docs/blog/release-v0.7.0.md)
 
 <details>
 <summary>🤓 <strong>My Personal Story</strong></summary>
@@ -239,7 +239,7 @@ pip install crawl4ai[sync]
 For contributors who plan to modify the source code:
 
 ```bash
-git clone https://github.com/unclecode/crawl4ai.git
+git clone https://github.com/ivansslo/crawl4ai.git
 cd crawl4ai
 pip install -e .                    # Basic installation in editable mode
 ```
@@ -275,8 +275,8 @@ The new Docker implementation includes:
 
 ```bash
 # Pull and run the latest release candidate
-docker pull unclecode/crawl4ai:0.7.0
-docker run -d -p 11235:11235 --name crawl4ai --shm-size=1g unclecode/crawl4ai:0.7.0
+docker pull ivansslo/crawl4ai:0.7.0
+docker run -d -p 11235:11235 --name crawl4ai --shm-size=1g ivansslo/crawl4ai:0.7.0
 
 # Visit the playground at http://localhost:11235/playground
 ```
@@ -313,14 +313,14 @@ else:
     result = requests.get(f"http://localhost:11235/task/{task_id}")
 ```
 
-For more examples, see our [Docker Examples](https://github.com/unclecode/crawl4ai/blob/main/docs/examples/docker_example.py). For advanced configuration, environment variables, and usage examples, see our [Docker Deployment Guide](https://docs.crawl4ai.com/basic/docker-deployment/).
+For more examples, see our [Docker Examples](https://github.com/ivansslo/crawl4ai/blob/main/docs/examples/docker_example.py). For advanced configuration, environment variables, and usage examples, see our [Docker Deployment Guide](https://docs.crawl4ai.com/basic/docker-deployment/).
 
 </details>
 
 
 ## 🔬 Advanced Usage Examples 🔬
 
-You can check the project structure in the directory [docs/examples](https://github.com/unclecode/crawl4ai/tree/main/docs/examples). Over there, you can find a variety of examples; here, some popular examples are shared.
+You can check the project structure in the directory [docs/examples](https://github.com/ivansslo/crawl4ai/tree/main/docs/examples). Over there, you can find a variety of examples; here, some popular examples are shared.
 
 <details>
 <summary>📝 <strong>Heuristic Markdown Generation with Clean and Fit Markdown</strong></summary>
@@ -582,7 +582,7 @@ async def test_news_crawl():
 
 - **⚡ Performance Boost**: Up to 3x faster with optimized resource handling and memory efficiency
 
-Read the full details in our [0.7.0 Release Notes](https://docs.crawl4ai.com/blog/release-v0.7.0) or check the [CHANGELOG](https://github.com/unclecode/crawl4ai/blob/main/CHANGELOG.md).
+Read the full details in our [0.7.0 Release Notes](https://docs.crawl4ai.com/blog/release-v0.7.0) or check the [CHANGELOG](https://github.com/ivansslo/crawl4ai/blob/main/CHANGELOG.md).
 
 ## Version Numbering in Crawl4AI
 
@@ -631,7 +631,7 @@ For production environments, we recommend using the stable version. For testing 
 
 For current documentation, including installation instructions, advanced features, and API reference, visit our [Documentation Website](https://docs.crawl4ai.com/).
 
-To check our development plans and upcoming features, visit our [Roadmap](https://github.com/unclecode/crawl4ai/blob/main/ROADMAP.md).
+To check our development plans and upcoming features, visit our [Roadmap](https://github.com/ivansslo/crawl4ai/blob/main/ROADMAP.md).
 
 <details>
 <summary>📈 <strong>Development TODOs</strong></summary>
@@ -653,7 +653,7 @@ To check our development plans and upcoming features, visit our [Roadmap](https:
 
 ## 🤝 Contributing 
 
-We welcome contributions from the open-source community. Check out our [contribution guidelines](https://github.com/unclecode/crawl4ai/blob/main/CONTRIBUTORS.md) for more information.
+We welcome contributions from the open-source community. Check out our [contribution guidelines](https://github.com/ivansslo/crawl4ai/blob/main/CONTRIBUTORS.md) for more information.
 
 I'll help modify the license section with badges. For the halftone effect, here's a version with it:
 
@@ -661,7 +661,7 @@ Here's the updated license section:
 
 ## 📄 License & Attribution
 
-This project is licensed under the Apache License 2.0, attribution is recommended via the badges below. See the [Apache 2.0 License](https://github.com/unclecode/crawl4ai/blob/main/LICENSE) file for details.
+This project is licensed under the Apache License 2.0, attribution is recommended via the badges below. See the [Apache 2.0 License](https://github.com/ivansslo/crawl4ai/blob/main/LICENSE) file for details.
 
 ### Attribution Requirements
 When using Crawl4AI, you must include one of the following attribution methods:
@@ -671,36 +671,36 @@ Add one of these badges to your README, documentation, or website:
 
 | Theme | Badge |
 |-------|-------|
-| **Disco Theme (Animated)** | <a href="https://github.com/unclecode/crawl4ai"><img src="./docs/assets/powered-by-disco.svg" alt="Powered by Crawl4AI" width="200"/></a> |
-| **Night Theme (Dark with Neon)** | <a href="https://github.com/unclecode/crawl4ai"><img src="./docs/assets/powered-by-night.svg" alt="Powered by Crawl4AI" width="200"/></a> |
-| **Dark Theme (Classic)** | <a href="https://github.com/unclecode/crawl4ai"><img src="./docs/assets/powered-by-dark.svg" alt="Powered by Crawl4AI" width="200"/></a> |
-| **Light Theme (Classic)** | <a href="https://github.com/unclecode/crawl4ai"><img src="./docs/assets/powered-by-light.svg" alt="Powered by Crawl4AI" width="200"/></a> |
+| **Disco Theme (Animated)** | <a href="https://github.com/ivansslo/crawl4ai"><img src="./docs/assets/powered-by-disco.svg" alt="Powered by Crawl4AI" width="200"/></a> |
+| **Night Theme (Dark with Neon)** | <a href="https://github.com/ivansslo/crawl4ai"><img src="./docs/assets/powered-by-night.svg" alt="Powered by Crawl4AI" width="200"/></a> |
+| **Dark Theme (Classic)** | <a href="https://github.com/ivansslo/crawl4ai"><img src="./docs/assets/powered-by-dark.svg" alt="Powered by Crawl4AI" width="200"/></a> |
+| **Light Theme (Classic)** | <a href="https://github.com/ivansslo/crawl4ai"><img src="./docs/assets/powered-by-light.svg" alt="Powered by Crawl4AI" width="200"/></a> |
  
 
 HTML code for adding the badges:
 ```html
 <!-- Disco Theme (Animated) -->
-<a href="https://github.com/unclecode/crawl4ai">
-  <img src="https://raw.githubusercontent.com/unclecode/crawl4ai/main/docs/assets/powered-by-disco.svg" alt="Powered by Crawl4AI" width="200"/>
+<a href="https://github.com/ivansslo/crawl4ai">
+  <img src="https://raw.githubusercontent.com/ivansslo/crawl4ai/main/docs/assets/powered-by-disco.svg" alt="Powered by Crawl4AI" width="200"/>
 </a>
 
 <!-- Night Theme (Dark with Neon) -->
-<a href="https://github.com/unclecode/crawl4ai">
-  <img src="https://raw.githubusercontent.com/unclecode/crawl4ai/main/docs/assets/powered-by-night.svg" alt="Powered by Crawl4AI" width="200"/>
+<a href="https://github.com/ivansslo/crawl4ai">
+  <img src="https://raw.githubusercontent.com/ivansslo/crawl4ai/main/docs/assets/powered-by-night.svg" alt="Powered by Crawl4AI" width="200"/>
 </a>
 
 <!-- Dark Theme (Classic) -->
-<a href="https://github.com/unclecode/crawl4ai">
-  <img src="https://raw.githubusercontent.com/unclecode/crawl4ai/main/docs/assets/powered-by-dark.svg" alt="Powered by Crawl4AI" width="200"/>
+<a href="https://github.com/ivansslo/crawl4ai">
+  <img src="https://raw.githubusercontent.com/ivansslo/crawl4ai/main/docs/assets/powered-by-dark.svg" alt="Powered by Crawl4AI" width="200"/>
 </a>
 
 <!-- Light Theme (Classic) -->
-<a href="https://github.com/unclecode/crawl4ai">
-  <img src="https://raw.githubusercontent.com/unclecode/crawl4ai/main/docs/assets/powered-by-light.svg" alt="Powered by Crawl4AI" width="200"/>
+<a href="https://github.com/ivansslo/crawl4ai">
+  <img src="https://raw.githubusercontent.com/ivansslo/crawl4ai/main/docs/assets/powered-by-light.svg" alt="Powered by Crawl4AI" width="200"/>
 </a>
 
 <!-- Simple Shield Badge -->
-<a href="https://github.com/unclecode/crawl4ai">
+<a href="https://github.com/ivansslo/crawl4ai">
   <img src="https://img.shields.io/badge/Powered%20by-Crawl4AI-blue?style=flat-square" alt="Powered by Crawl4AI"/>
 </a>
 ```
@@ -708,7 +708,7 @@ HTML code for adding the badges:
 #### 2. Text Attribution
 Add this line to your documentation:
 ```
-This project uses Crawl4AI (https://github.com/unclecode/crawl4ai) for web data extraction.
+This project uses Crawl4AI (https://github.com/ivansslo/crawl4ai) for web data extraction.
 ```
 
 ## 📚 Citation
@@ -722,7 +722,7 @@ If you use Crawl4AI in your research or project, please cite:
   year = {2024},
   publisher = {GitHub},
   journal = {GitHub Repository},
-  howpublished = {\url{https://github.com/unclecode/crawl4ai}},
+  howpublished = {\url{https://github.com/ivansslo/crawl4ai}},
   commit = {Please use the commit hash you're working with}
 }
 ```
@@ -730,15 +730,15 @@ If you use Crawl4AI in your research or project, please cite:
 Text citation format:
 ```
 UncleCode. (2024). Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper [Computer software]. 
-GitHub. https://github.com/unclecode/crawl4ai
+GitHub. https://github.com/ivansslo/crawl4ai
 ```
 
 ## 📧 Contact 
 
 For questions, suggestions, or feedback, feel free to reach out:
 
-- GitHub: [unclecode](https://github.com/unclecode)
-- Twitter: [@unclecode](https://twitter.com/unclecode)
+- GitHub: [ivansslo](https://github.com/ivansslo)
+- Twitter: [@ivansslo](https://twitter.com/ivansslo)
 - Website: [crawl4ai.com](https://crawl4ai.com)
 
 Happy Crawling! 🕸️🚀
@@ -751,8 +751,8 @@ Crawl4AI is the #1 trending open-source web crawler with 51K+ stars. Your suppor
 
 <div align="center">
 
-[![Become a Sponsor](https://img.shields.io/badge/Become%20a%20Sponsor-pink?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/unclecode)
-[![Current Sponsors](https://img.shields.io/github/sponsors/unclecode?style=for-the-badge&logo=github&label=Current%20Sponsors&color=green)](https://github.com/sponsors/unclecode)
+[![Become a Sponsor](https://img.shields.io/badge/Become%20a%20Sponsor-pink?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/ivansslo)
+[![Current Sponsors](https://img.shields.io/github/sponsors/ivansslo?style=for-the-badge&logo=github&label=Current%20Sponsors&color=green)](https://github.com/sponsors/ivansslo)
 
 </div>
 
@@ -765,12 +765,12 @@ Crawl4AI is the #1 trending open-source web crawler with 51K+ stars. Your suppor
 
 **Why sponsor?** Every tier includes real benefits. No more rate-limited APIs. Own your data pipeline. Build data sovereignty together.
 
-[View All Tiers & Benefits →](https://github.com/sponsors/unclecode)
+[View All Tiers & Benefits →](https://github.com/sponsors/ivansslo)
 
 ### 🏆 Our Sponsors
 
 #### 👑 Founding Sponsors (First 50)
-*Be part of history - [Become a Founding Sponsor](https://github.com/sponsors/unclecode)*
+*Be part of history - [Become a Founding Sponsor](https://github.com/sponsors/ivansslo)*
 
 <!-- Founding sponsors will be permanently recognized here -->
 
@@ -806,4 +806,4 @@ For more details, see our [full mission statement](./MISSION.md).
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=unclecode/crawl4ai&type=Date)](https://star-history.com/#unclecode/crawl4ai&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ivansslo/crawl4ai&type=Date)](https://star-history.com/#ivansslo/crawl4ai&Date)
