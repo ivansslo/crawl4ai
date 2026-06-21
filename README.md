@@ -1130,7 +1130,7 @@ python main.py
 
 | Platform | Command |
 |----------|---------|
-| **Render (1-click)** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ivansslo/crawl4ai) — set root dir to `zapier-webhook` |
+| **Render (1-click)** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https://github.com/ivansslo/crawl4ai) — langsung ke Blueprint setup |
 | **Docker** | `docker build -t crawl4ai-mcp ./mcp-server && docker run -p 8000:8000 crawl4ai-mcp` |
 | **Manual** | `cd zapier-webhook && pip install -r requirements.txt && gunicorn server:app` |
 

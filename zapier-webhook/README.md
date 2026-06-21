@@ -117,7 +117,7 @@ curl https://server-url/result/<task_id>
 
 ## Deploy ke Render (1-click)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ivansslo/crawl4ai)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https://github.com/ivansslo/crawl4ai)
 
 **Setelah klik tombol di atas:**
 1. Hubungkan GitHub repo `ivansslo/crawl4ai`
