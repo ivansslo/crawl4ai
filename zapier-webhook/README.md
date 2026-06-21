@@ -114,3 +114,13 @@ curl -X POST https://server-url/webhook/trigger \
 # Poll result
 curl https://server-url/result/<task_id>
 ```
+
+## Deploy ke Render (1-click)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ivansslo/crawl4ai)
+
+**Setelah klik tombol di atas:**
+1. Hubungkan GitHub repo `ivansslo/crawl4ai`
+2. Set **Root Directory** → `zapier-webhook`
+3. Render auto-detect `render.yaml`
+4. Klik **Apply** → selesai! 🚀

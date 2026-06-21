@@ -1,8 +1,10 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# This file enables 1-click deploy of the Zapier webhook server.
+
 services:
   - type: web
     name: crawl4ai-zapier-webhook
     env: python
-    repo: https://github.com/ivansslo/crawl4ai
     rootDir: zapier-webhook
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60

@@ -1130,6 +1130,12 @@ python main.py
 
 | Platform | Command |
 |----------|---------|
+| **Render (1-click)** | [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ivansslo/crawl4ai) — set root dir to `zapier-webhook` |
+| **Docker** | `docker build -t crawl4ai-mcp ./mcp-server && docker run -p 8000:8000 crawl4ai-mcp` |
+| **Manual** | `cd zapier-webhook && pip install -r requirements.txt && gunicorn server:app` |
+
+| Platform | Command |
+|----------|---------|
 | **Docker** | `docker build -t crawl4ai-mcp ./mcp-server && docker run -p 8000:8000 crawl4ai-mcp` |
 | **Render** | Point to `mcp-server/` dir, start: `uvicorn main:app --host 0.0.0.0 --port $PORT` |
 | **Railway** | Deploy `mcp-server/` as Python service |
