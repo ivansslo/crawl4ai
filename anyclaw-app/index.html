@@ -130,57 +130,122 @@
     <div v-if="tab === 'zapier'" class="space-y-6">
       <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
         <h2 class="text-lg font-semibold mb-2">⚡ Zapier Integration</h2>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Connect crawl4ai webhooks to 5000+ apps via Zapier.</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Dua skenario integrasi: Crawl4AI sebagai Action atau Trigger di Zapier.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
-            <h3 class="font-semibold text-sm mb-2">📥 Webhook Trigger</h3>
-            <p class="text-xs text-gray-500 mb-2">Crawl4AI sends data to Zapier when crawl completes.</p>
-            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ backendUrl }}/webhook/trigger</code>
-            <pre class="text-xs mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">{
-  "webhook_url": "https://hooks.zapier.com/...",
-  "url": "https://example.com"
-}</pre>
+        <!-- SKENARIO 1: Zapier Action -->
+        <div class="mb-6">
+          <h3 class="font-semibold text-sm mb-4 flex items-center gap-2">
+            <span class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded text-xs font-bold">SKENARIO 1</span>
+            Zapier → Crawl4AI (Action)
+          </h3>
+          <p class="text-xs text-gray-500 mb-3">Crawl website sebagai Action dalam Zap Anda. Cocok untuk: schedule rutin, trigger dari form, email, dll.</p>
+          
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 mb-3">
+            <h4 class="font-semibold text-xs mb-2">Setup di Zapier:</h4>
+            <ol class="text-xs space-y-1 text-gray-600 dark:text-gray-400 list-decimal list-inside">
+              <li>Buat Zap baru → Trigger: pilih app apapun (Schedule, Email, Form, dll)</li>
+              <li>Action: <strong>Webhooks by Zapier</strong> → <strong>POST</strong></li>
+              <li>URL: <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">{{ backendUrl }}/webhook/catch</code></li>
+              <li>Payload Type: <strong>JSON</strong></li>
+              <li>Data: <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">{"url": "https://target.com", "formats": ["markdown"]}</code></li>
+              <li>Test → response berisi <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">content</code>, <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">response_time</code>, <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">links_count</code></li>
+            </ol>
           </div>
-          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 card-hover">
-            <h3 class="font-semibold text-sm mb-2">📤 Webhook Action</h3>
-            <p class="text-xs text-gray-500 mb-2">Zapier triggers a crawl and gets results.</p>
-            <code class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded break-all">{{ backendUrl }}/crawl</code>
-            <pre class="text-xs mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">{
-  "url": "https://example.com",
-  "formats": ["markdown"]
-}</pre>
+          
+          <div class="bg-green-50 dark:bg-green-950 rounded-xl p-3 border border-green-200 dark:border-green-800">
+            <p class="text-xs text-green-700 dark:text-green-300"><strong>Contoh:</strong> Google Form submission → Crawl website → Simpan hasil ke Google Sheets</p>
           </div>
         </div>
 
-        <div class="bg-amber-50 dark:bg-amber-950 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
-          <h3 class="font-semibold text-sm mb-2">🔧 Setup Steps</h3>
-          <ol class="text-sm space-y-1.5 text-gray-700 dark:text-gray-300 list-decimal list-inside">
-            <li>Buat Zap baru di <a href="https://zapier.com" target="_blank" class="text-blue-600 hover:underline">Zapier.com</a></li>
-            <li>Pilih <strong>Webhooks by Zapier</strong> → <strong>Catch Hook</strong></li>
-            <li>Copy URL dari Zapier, kirim ke <code class="text-xs bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">{{ backendUrl }}/webhook/trigger</code></li>
-            <li>Map response fields ke action berikutnya (Google Sheets, Email, Slack, dll)</li>
-            <li>Aktifkan Zap!</li>
-          </ol>
+        <!-- SKENARIO 2: Zapier Trigger -->
+        <div class="mb-6">
+          <h3 class="font-semibold text-sm mb-4 flex items-center gap-2">
+            <span class="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded text-xs font-bold">SKENARIO 2</span>
+            Crawl4AI → Zapier (Trigger)
+          </h3>
+          <p class="text-xs text-gray-500 mb-3">Crawl4AI mengirim hasil crawl ke Zapier. Cocok untuk: notifikasi, alert, pipeline data otomatis.</p>
+          
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 mb-3">
+            <h4 class="font-semibold text-xs mb-2">Setup di Zapier:</h4>
+            <ol class="text-xs space-y-1 text-gray-600 dark:text-gray-400 list-decimal list-inside">
+              <li>Buat Zap baru → Trigger: <strong>Webhooks by Zapier</strong> → <strong>Catch Hook</strong></li>
+              <li>Copy URL: <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">https://hooks.zapier.com/hooks/catch/...</code></li>
+              <li>Kirim request ke server dengan URL Zapier tersebut</li>
+            </ol>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700">
+            <h4 class="font-semibold text-xs mb-2">Contoh Request:</h4>
+            <pre class="text-xs bg-gray-200 dark:bg-gray-700 rounded-lg p-2 overflow-x-auto">curl -X POST {{ backendUrl }}/webhook/trigger \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "zapier_respond_url": "https://hooks.zapier.com/hooks/catch/xxx/yyy"
+  }'</pre>
+          </div>
         </div>
+
+        <!-- Deploy Webhook Server -->
+        <div class="bg-indigo-50 dark:bg-indigo-950 rounded-xl p-4 border border-indigo-200 dark:border-indigo-800 mb-4">
+          <h3 class="font-semibold text-sm mb-2">Deploy Webhook Server</h3>
+          <p class="text-xs text-gray-500 mb-3">Jalankan server webhook sendiri di Render / Railway / VPS. Source: <code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">zapier-webhook/</code> di repo.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-700">
+              <p class="text-xs"><strong>Render:</strong> Root: <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">zapier-webhook</code></p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-700">
+              <p class="text-xs"><strong>Railway:</strong> <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">gunicorn server:app</code></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payload Reference -->
+        <details class="text-sm mb-4">
+          <summary class="cursor-pointer font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800">Lihat payload response webhook</summary>
+          <pre class="text-xs bg-gray-100 dark:bg-gray-800 rounded-lg p-3 mt-2 overflow-x-auto">{
+  "event": "crawl_complete",
+  "task_id": "a1b2c3d4",
+  "data": {
+    "url": "https://example.com",
+    "status": "success",
+    "content": "# Page Title...",
+    "format": "markdown",
+    "response_time": 142,
+    "links_count": 24
+  },
+  "timestamp": "2026-06-22T02:30:00Z"
+}</pre>
+        </details>
       </div>
 
       <!-- Quick Test -->
       <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
-        <h3 class="font-semibold text-sm mb-4">📤 Test Webhook</h3>
+        <h3 class="font-semibold text-sm mb-4">Test Webhook Server</h3>
         <div class="space-y-3">
-          <input v-model="zapierWebhookUrl" type="url" placeholder="Zapier webhook URL dari Catch Hook..." class="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
-          <input v-model="zapierCrawlUrl" type="url" placeholder="URL target untuk dicrawl..." class="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
-          <button @click="testZapier" :disabled="zapierLoading" class="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl font-medium text-sm hover:opacity-90 disabled:opacity-50 flex items-center gap-2">
-            <span v-if="zapierLoading" class="spinner"></span>
-            <span v-else>📤 Kirim ke Zapier</span>
-          </button>
-          <p v-if="zapierResult" class="text-green-600 dark:text-green-400 text-sm">{{ zapierResult }}</p>
+          <div class="flex gap-3">
+            <input v-model="zapierCrawlUrl" type="url" placeholder="URL target untuk dicrawl..." class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+            <select v-model="zapierFormat" class="px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm outline-none">
+              <option value="markdown">Markdown</option>
+              <option value="html">HTML</option>
+            </select>
+          </div>
+          <div class="flex gap-3">
+            <button @click="testZapierCatch" :disabled="zapierLoading" class="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium text-sm hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+              <span v-if="zapierLoading" class="spinner"></span>
+              <span v-else>Test /webhook/catch (sync)</span>
+            </button>
+            <button @click="testZapierTrigger" :disabled="zapierLoading" class="flex-1 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl font-medium text-sm hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+              <span v-if="zapierLoading" class="spinner"></span>
+              <span v-else>Test /webhook/trigger (async)</span>
+            </button>
+          </div>
+          <div v-if="zapierResult" class="bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
+            <pre class="text-xs overflow-x-auto">{{ zapierResult }}</pre>
+          </div>
           <p v-if="zapierError" class="text-red-500 text-sm">{{ zapierError }}</p>
         </div>
       </div>
     </div>
-
     <!-- Tab: Server -->
     <div v-if="tab === 'server'" class="space-y-6">
       <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
@@ -249,6 +314,7 @@ python main.py</pre>
           loading: false,
           zapierWebhookUrl: '',
           zapierCrawlUrl: '',
+          zapierFormat: 'markdown',
           zapierResult: '',
           zapierError: '',
           zapierLoading: false,
@@ -311,6 +377,48 @@ python main.py</pre>
             };
             this.toast = '⚠️ Demo mode — backend tidak terhubung';
           } finally { this.loading = false; }
+        },
+        async testZapierCatch() {
+          if (!this.zapierCrawlUrl) return;
+          this.zapierLoading = true;
+          this.zapierResult = '';
+          this.zapierError = '';
+          try {
+            const res = await fetch(this.backendUrl + '/webhook/catch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url: this.zapierCrawlUrl, formats: [this.zapierFormat] }),
+              signal: AbortSignal.timeout(15000)
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            this.zapierResult = JSON.stringify(data, null, 2);
+            this.toast = '✅ Sync crawl berhasil!';
+          } catch (e) {
+            this.zapierError = e.message;
+            this.zapierResult = '{\n  "url": "' + this.zapierCrawlUrl + '",\n  "status": "demo",\n  "content": "Demo mode - connect backend for live results"\n}';
+          } finally { this.zapierLoading = false; }
+        },
+        async testZapierTrigger() {
+          if (!this.zapierCrawlUrl) return;
+          this.zapierLoading = true;
+          this.zapierResult = '';
+          this.zapierError = '';
+          try {
+            const res = await fetch(this.backendUrl + '/webhook/trigger', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url: this.zapierCrawlUrl, formats: [this.zapierFormat], zapier_respond_url: '' }),
+              signal: AbortSignal.timeout(5000)
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            this.zapierResult = '✅ Async crawl submitted!\n' + JSON.stringify(data, null, 2);
+            this.toast = '⚡ Trigger sent!';
+          } catch (e) {
+            this.zapierError = e.message;
+            this.zapierResult = '{\n  "status": "processing",\n  "task_id": "demo",\n  "message": "Demo mode - connect backend for live"\n}';
+          } finally { this.zapierLoading = false; }
         },
         async testZapier() {
           if (!this.zapierWebhookUrl || !this.zapierCrawlUrl) return;
