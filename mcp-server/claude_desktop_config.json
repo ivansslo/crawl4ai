@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "crawl4ai": {
+      "command": "python",
+      "args": ["-m", "uvicorn", "mcp-server.main:app", "--host", "127.0.0.1", "--port", "8000"],
+      "env": {
+        "PYTHONPATH": "."
+      }
+    }
+  }
+}
